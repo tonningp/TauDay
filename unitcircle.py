@@ -23,68 +23,68 @@ class UnitCircle(QGraphicsItem):
 
     BoundingRect = QRectF(-50,-50,100,100)
 
-    def __init__(self,color):
+    def __init__(self,color,radius=50):
         super(UnitCircle,self).__init__()
         self.color = color
         self.xres = 2 
         self.yres = 100
         self.currentTick = 0
         self.m_cp = QPointF(0,0)
-        self.m_radius = 50
-        self.m_circle = self.getCircle(self.m_radius,self.m_cp,3)
+        self.m_radius = radius
+        self.m_circle = self.getCircle(self.m_cp,3)
 
-    def getCircle(self,m_radius,cp,ticksize):
+    def getCircle(self,cp,ticksize):
         qp = QPainterPath()
-        qp.addEllipse(cp,m_radius,m_radius)
+        qp.addEllipse(cp,self.m_radius,self.m_radius)
         points = [
 
             # 0
             (
-                QPointF(m_radius-ticksize,0),
-                QPointF(m_radius+ticksize,0)
+                QPointF(self.m_radius-ticksize,0),
+                QPointF(self.m_radius+ticksize,0)
             ),
             #pi/4
             (
-                QPointF(m_radius*math.cos(math.pi/4)-ticksize,
-                        -m_radius*math.sin(math.pi/4)+ticksize),
-                QPointF(m_radius*math.cos(math.pi/4)+ticksize,
-                        -m_radius*math.sin(math.pi/4)-ticksize)
+                QPointF(self.m_radius*math.cos(math.pi/4)-ticksize,
+                        -self.m_radius*math.sin(math.pi/4)+ticksize),
+                QPointF(self.m_radius*math.cos(math.pi/4)+ticksize,
+                        -self.m_radius*math.sin(math.pi/4)-ticksize)
 
             ),
             (
-                QPointF(0,-m_radius-ticksize),
-                QPointF(0,-m_radius+ticksize)
+                QPointF(0,-self.m_radius-ticksize),
+                QPointF(0,-self.m_radius+ticksize)
             ),
             # 3pi/4
             (
-                QPointF(m_radius*math.cos(3*math.pi/4)-ticksize,
-                        -m_radius*math.sin(math.pi/4)-ticksize),
-                QPointF(m_radius*math.cos(3*math.pi/4)+ticksize,
-                       -m_radius*math.sin(math.pi/4)+ticksize)
+                QPointF(self.m_radius*math.cos(3*math.pi/4)-ticksize,
+                        -self.m_radius*math.sin(math.pi/4)-ticksize),
+                QPointF(self.m_radius*math.cos(3*math.pi/4)+ticksize,
+                       -self.m_radius*math.sin(math.pi/4)+ticksize)
             ),
             # 180
             (
-                QPointF(-m_radius-ticksize,0),
-                QPointF(-m_radius+ticksize,0)
+                QPointF(-self.m_radius-ticksize,0),
+                QPointF(-self.m_radius+ticksize,0)
 
             ),
             # 3pi/2
             (
-                QPointF(0,m_radius-ticksize),
-                QPointF(0,m_radius+ticksize)
+                QPointF(0,self.m_radius-ticksize),
+                QPointF(0,self.m_radius+ticksize)
             ),
             (
-                QPointF(m_radius*math.cos(5*math.pi/4)-ticksize,
-                        -m_radius*math.sin(5*math.pi/4)+ticksize),
-                QPointF(m_radius*math.cos(5*math.pi/4)+ticksize,
-                       -m_radius*math.sin(5*math.pi/4)-ticksize)
+                QPointF(self.m_radius*math.cos(5*math.pi/4)-ticksize,
+                        -self.m_radius*math.sin(5*math.pi/4)+ticksize),
+                QPointF(self.m_radius*math.cos(5*math.pi/4)+ticksize,
+                       -self.m_radius*math.sin(5*math.pi/4)-ticksize)
             ),
             # 7pi/4
             (
-                QPointF(m_radius*math.cos(7*math.pi/4)-ticksize,
-                       -m_radius*math.sin(7*math.pi/4)-ticksize),
-                QPointF(m_radius*math.cos(7*math.pi/4)+ticksize,
-                       -m_radius*math.sin(7*math.pi/4)+ticksize)
+                QPointF(self.m_radius*math.cos(7*math.pi/4)-ticksize,
+                       -self.m_radius*math.sin(7*math.pi/4)-ticksize),
+                QPointF(self.m_radius*math.cos(7*math.pi/4)+ticksize,
+                       -self.m_radius*math.sin(7*math.pi/4)+ticksize)
             )
         ]
 

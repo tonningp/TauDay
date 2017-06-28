@@ -49,7 +49,8 @@ class Legend(QGraphicsItem):
         return Legend.BoundingRect
 
     def mousePressEvent(self,event):
-        print(event.pos())
+        pass
+       # print(event.pos())
 
     def paint(self,painter,option,widget):
         #painter.setBrush(Qt.blue)

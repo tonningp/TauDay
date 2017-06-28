@@ -37,7 +37,7 @@ class Scene(QGraphicsScene):
             {"wave":Wave('lambda d: sin(4*d)*-2.5',QColor(0,128,128))},
             {"wave":Wave('lambda d: cos(4*d)*0.5',QColor(0,128,128))},
         ]
-        self.incStep = 15
+        self.incStep = 5
         cp = QPointF(300,0)
         self.makeWaves(cp)
         self.axis = Axis(QColor(0,0,0))

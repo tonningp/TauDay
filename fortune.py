@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from math import sin,cos,pi
+from math import sin,cos,pi,exp
 
 from PyQt5.QtCore import (
         QPointF, 
@@ -9,66 +9,50 @@ from PyQt5.QtCore import (
 )
 from PyQt5.QtGui import (
     QBrush, 
-    QFont,
-    QPen, 
+    QPen,
     QPainter, 
     QPainterPath,
     QPixmap
 )
 from PyQt5.QtWidgets import (
-    QGraphicsItem
+    QGraphicsItem, 
+    QGraphicsScene
 )
 
 from angleitem import Item as Angle
-class Curve(QGraphicsItem):
+class Wave(QGraphicsItem):
 
-    BoundingRect = QRectF(-100,-100,200,200)
+    BoundingRect = QRectF(0,-100,720,100)
 
-    def __init__(self,fn,color,periods):
-        super(Curve,self).__init__()
+    def __init__(self,fn,color):
+        super(Wave,self).__init__()
         self.fnText = fn
-        self.fn = eval('lambda d: '+fn)
+        self.fn = eval(fn)
         self.color = color
-        self.xres = 100 
+        self.xres = 2 
         self.yres = 100
-        self.currentTick = 0
-        self.periods = periods 
+        self.start = 0
+        self.currentTick = self.start
         self.curve = self.getCurve()
-        self.angle = Angle(self)
         self.setFlag(QGraphicsItem.ItemIsMovable, True);
         self.setFlag(QGraphicsItem.ItemIsSelectable, True);
+        self.angle = Angle(self)
 
     def getCurve(self):
        qp = QPainterPath()
-       r = self.fn(0)
-       lastPoint = QPointF(self.xres * r[0],-1*self.yres * r[1])
-       for d in range(self.periods*360):
+       lastPoint = QPointF(0,-1*self.yres * self.fn(self.start))
+       for d in range(self.start,360):
            qp.moveTo(lastPoint)
-           r = self.fn(d*pi/180.0)
-           nextPoint = QPointF(self.xres * r[0],-1*self.yres * r[1])
+           nextPoint = QPointF(self.xres * d,-1*self.yres * self.fn(d*pi/180.0))
            qp.lineTo(nextPoint)
            lastPoint = nextPoint
 
        return qp 
 
-    def itemChange(self,change,value):
-        return super(Curve,self).itemChange(change,value)
-
-    def nextStep(self,inc):
-        if self.currentTick  < self.periods*360 and self.currentTick >= 0:
-            self.currentTick +=inc
-        elif self.currentTick < 0:
-        #    self.currentTick = 359
-            self.currentTick = self.periods * 360 -1
-        else:
-            self.currentTick = 0
-        #if self.currentTick < 0:
-        #    self.currentTick = self.periods * 360 -1
-        self.angle.currentTick = self.currentTick
 
 
     def boundingRect(self):
-        return Curve.BoundingRect
+        return Wave.BoundingRect
 
     def getRad(self):
         return self.currentTick * pi / 180.0 
@@ -137,15 +121,22 @@ class Curve(QGraphicsItem):
 
         return qp
 
+    def nextStep(self,inc):
+        if self.currentTick  < 360: 
+            self.currentTick +=inc
+            if self.currentTick < 0:
+                self.currentTick = 359
+        else:
+            self.currentTick = 0
+
+        #else:
+        #    self.currentTick = self.start
+        #if self.currentTick < 0:
+        #    self.currentTick = 359
+        self.angle.currentTick = self.currentTick
+
     def paint(self,painter,option,widget):
-        painter.setPen(QPen(self.color,1.25))
+        painter.setPen(QPen(self.color,2.25))
         painter.drawPath(self.curve)
-        r = self.fn(self.getRad())
-        cp = QPointF(self.xres * r[0],-1*self.yres * r[1])
-        self.angle.setCenter(cp)
-        font = QFont() 
-        font.setPointSize(10)
-        painter.setFont(font)
-        painter.setPen(Qt.black)
-        painter.drawText(QPointF(self.boundingRect().center().x(),self.boundingRect().bottom()+15),self.fnText)
-    
+        self.angle.setCenter(QPointF( self.xres*self.currentTick,
+                                     -self.yres*self.fn(self.getRad())))

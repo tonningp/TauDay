@@ -63,6 +63,11 @@ class Window(QMainWindow):
         lissajousAction.setShortcut('Ctrl+3')
         lissajousAction.triggered.connect(self.lissajousScene)
         self.newMenu.addAction(lissajousAction)
+        fortuneAction = QAction(QIcon(':/assets/images/tile.png'), 'Tau Day -- Tau of Fortune', self)
+        fortuneAction.setStatusTip('Fortune')
+        fortuneAction.setShortcut('Ctrl+4')
+        fortuneAction.triggered.connect(self.fortuneScene)
+        self.newMenu.addAction(fortuneAction)
         self.setWindowTitle("Sine Waves")
         self.scalefactor = 250
 
@@ -83,6 +88,13 @@ class Window(QMainWindow):
         self.view.setScene(scene)
         self.setWindowTitle("Sine Waves")
 
+    def fortuneScene(self):
+        from fortunescene import Scene as FortuneScene
+        scene = FortuneScene(self.updateThread)
+        self.speedChange.connect(scene.speedChange)
+        self.view.setScene(scene)
+        self.setWindowTitle("Tau of Fortune")
+
     def roseScene(self):
         from rosescene import Scene as RoseScene
         scene = RoseScene(self.updateThread)
@@ -95,7 +107,7 @@ class Window(QMainWindow):
         scene = LissajousScene(self.updateThread)
         self.speedChange.connect(scene.speedChange)
         self.view.setScene(scene)
-        [print('{}'.format(item)) for item in scene.items()]
+        #[print('{}'.format(item)) for item in scene.items()]
         self.setWindowTitle("Lissajous Curves")
 
     def wheelEvent(self,event):

@@ -38,7 +38,7 @@ class Scene(QGraphicsScene):
             {"wave":Curve('(sin(13*t+pi/2),sin(14*t))',QColor(0,255,0),1)},
             {"wave":Curve('(sin(15*t+pi/2),sin(16*t))',QColor(0,0,255),1)},
         ]
-        self.incStep = 15
+        self.incStep = 1
         cp = QPointF(300,0)
         self.makeWaves(cp)
         self.axis = Axis(QColor(0,0,0))
@@ -60,7 +60,7 @@ class Scene(QGraphicsScene):
         else:
             mult = -1
         [fn["wave"].nextStep(mult*self.incStep) for fn in self.functions]
-        self.unitcircle.nextStep(self.incStep)
+        self.unitcircle.nextStep(mult*self.incStep)
         self.update()
 
     @pyqtSlot(int)

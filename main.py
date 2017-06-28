@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+from PyQt5.QtCore import (
+    Qt
+)
 
 from PyQt5.QtWidgets import (
     QApplication
@@ -24,5 +27,6 @@ if __name__ == '__main__':
 #    treader.setFunction(receiver);
     treader.start()                                   # ...Start the thread
     window = MainWindow(treader)
+    window.setWindowState(Qt.WindowMaximized)
     window.show()
     sys.exit(app.exec_())

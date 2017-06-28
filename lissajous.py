@@ -28,7 +28,7 @@ class Curve(QGraphicsItem):
 
     def __init__(self,fn,color,periods):
         super(Curve,self).__init__()
-        self.divisions = 360
+        self.divisions = 361
         self.fnText = fn
         self.fn = eval('lambda t: '+fn)
         self.color = color
@@ -126,15 +126,19 @@ class Curve(QGraphicsItem):
         return qp
 
     def nextStep(self,inc):
-        if self.currentTick  < self.periods*self.divisions and \
-                self.currentTick >=0 :
+        if self.currentTick  < self.periods*self.divisions:
             self.currentTick += inc
-        if self.currentTick < 0 :
-            self.currentTick = self.periods*self.divisions-2
-        #if self.currentTick < 0:
-        #    self.currentTick = self.periods*self.divisions-1
+            if self.currentTick < 0 :
+                self.currentTick = self.periods*self.divisions-1
+        else:
+            self.currentTick = 0
 
         self.angle.currentTick = self.currentTick
+
+    def itemChange(self,change,value):
+        if change == QGraphicsItem.ItemPositionChange and self.scene():
+            self.scene().update()
+        return super(Curve,self).itemChange(change,value)
 
     def paint(self,painter,option,widget):
         painter.setPen(QPen(self.color,1.25))
