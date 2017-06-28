@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/images/exit24.png</file>
+        <file>assets/images/exit64x64.png</file>
+        <file>assets/images/pdf64x64.png</file>
+        <file>assets/images/run64x64.png</file>
+        <file>assets/images/about64x64.png</file>
+        <file>assets/images/maze64x64.png</file>
+        <file>assets/images/home64x64.png</file>
+        <file>assets/images/edit64x64.png</file>
+        <file>assets/images/tile.png</file>
+    </qresource>
+</RCC>
